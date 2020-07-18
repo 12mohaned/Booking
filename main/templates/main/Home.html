@@ -1,0 +1,39 @@
+{% extends "main/Base.html" %}
+{% block content %}
+<body>
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    {% for service in Services %}
+    <div class="carousel-item active">
+      <h5>{{service.name}}</h5>
+      <img  src="media/{{service.name}}.jpg" alt="{{service.name}}">
+        <a href="Home/{{service.name}}" style= "color:coral">Reserve</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</body>
+  <style>
+    .row{
+      width : 50%;
+      margin-top:10%;
+    }
+    #carouselExampleControls{
+      margin-top:10%;
+    }
+    .body{
+    background-color:coral;
+    }
+</style>
+<script>
+  M.AutoInit();
+  var instance = M.Carousel.init({
+    fullWidth: true,
+    indicators: true
+  });
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+    indicators: true
+  });
+  </script>
+  {% endblock %}

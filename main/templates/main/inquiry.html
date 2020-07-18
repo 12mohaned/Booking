@@ -1,0 +1,13 @@
+{% extends "main/Base.html" %}
+{% block content %}
+<div id ="Inquiry">
+<form method="post">
+  {% csrf_token %}
+  {{ InquiryForm.as_p }}
+  <button class="btn orange dark" type="submit" name="action">Submit Inquiry
+    <i class="material-icons right">send</i>
+  </button>
+
+  </form>
+  </div>
+{% endblock %}
