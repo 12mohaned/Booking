@@ -30,8 +30,6 @@ class Booking(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     date = models.DateField()
 
-    def __str__(self):
-        return self.Buyername, " Reserved service from ", self.Sellername, " on date ", self.date
 
 #Improved later to include the user
 class Inquiry(models.Model):

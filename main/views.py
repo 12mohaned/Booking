@@ -20,17 +20,19 @@ def Services(request,service):
 
 #Reserve Service Providers
 def reserve_provider(request, provider):
+    booking = Booking(Sellername  = Seller.objects.get(username = 'BookingApp'), Buyername  = Buyer.objects.get(username = 'mohaned.mashaly'),service    = Service.objects.get(name = 'BootCamp'))
     Provider = Seller_Service.objects.filter(sellername = provider)
     print(Provider)
     if len(Provider) == 0:
         return HttpResponse("Url Can't be found")
     if request.method == "POST":
         Date = request.POST["Date"]
-        print(Date)
-        print(datetime.strptime(Date,'%m/%d/%y'))
-        #if len(Date) > 0:
-        #    Booking = Booking(Sellername  = Seller.objects.get(username = 'BookingApp'), Buyername  = Buyer.objects.get(username = 'mohaned.mashaly'), service    = Service.objects.get(name = 'BootCamp'))
-        #    Booking.save()
+        if len(Date) == 0:
+            return HttpResponse("Enter a valid Date")
+        else:
+            dt = datetime.strptime(Date, '%m/%d/%Y')
+            booking.date = dt
+            booking.save()
     return render(request,"main/Slot.html")
 
 #submit Inquiry
