@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Buyer, Seller, Booking, Service, Inquiry
+from .models import Buyer, Seller, Booking, Service, Inquiry, Seller_Service
 # Register your models here.
 class BuyerAdmin(admin.ModelAdmin):
     fields = ["username", "firstname", "lastname", "email"]
@@ -20,3 +20,7 @@ admin.site.register(Service,ServiceAdmin)
 class InquiryAdmin(admin.ModelAdmin):
     fields = ["Message"]
 admin.site.register(Inquiry, InquiryAdmin)
+
+class SelleServiceAdmin(admin.ModelAdmin):
+    fields = ['sellername','servicename']
+admin.site.register(Seller_Service,SelleServiceAdmin)

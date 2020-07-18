@@ -36,3 +36,7 @@ class Booking(models.Model):
 #Improved later to include the user
 class Inquiry(models.Model):
     Message = models.TextField()
+
+class Seller_Service(models.Model):
+    sellername = models.ForeignKey(Seller,on_delete = models.CASCADE)
+    servicename = models.ForeignKey(Service, on_delete = models.CASCADE)

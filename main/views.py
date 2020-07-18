@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .forms import DateForm, InquiryForm
-from .models import Buyer, Seller, Service, Booking, Inquiry
+from .forms import InquiryForm
+from .models import Buyer, Seller, Service, Booking, Inquiry,Seller_Service
 from django.http import HttpResponse
-
+from datetime import datetime
 # Return all services
 def Home(request):
     Services = Service.objects.all()
@@ -11,7 +11,7 @@ def Home(request):
 
 #Return all service providers
 def Services(request,service):
-    service = Seller_Service.objects.filter(service = service)
+    service = Seller_Service.objects.filter(servicename = service)
     if len(service) == 0:
         return HttpResponse("Url Can't be found")
 
@@ -20,11 +20,18 @@ def Services(request,service):
 
 #Reserve Service Providers
 def reserve_provider(request, provider):
-    Provider = Seller_Service.objects.filter(username = provider)
+    Provider = Seller_Service.objects.filter(sellername = provider)
+    print(Provider)
     if len(Provider) == 0:
         return HttpResponse("Url Can't be found")
-
-    return render(request,"main/Home.html")
+    if request.method == "POST":
+        Date = request.POST["Date"]
+        print(Date)
+        print(datetime.strptime(Date,'%m/%d/%y'))
+        #if len(Date) > 0:
+        #    Booking = Booking(Sellername  = Seller.objects.get(username = 'BookingApp'), Buyername  = Buyer.objects.get(username = 'mohaned.mashaly'), service    = Service.objects.get(name = 'BootCamp'))
+        #    Booking.save()
+    return render(request,"main/Slot.html")
 
 #submit Inquiry
 def Inquiry(request):

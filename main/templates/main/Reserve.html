@@ -1,28 +1,40 @@
-{% extends "main/Base.html"%}
+{% extends "main/Base.html" %}
 {% block content %}
-<form method="get">
-  <div class="row">
+<body>
+  <title>Sellers</title>
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
     {% for service in Services %}
-    <div class="col m4">
-      <div class="card">
-        <div class="card-image">
-        </div>
-        <div class="card-content">
-          <span class="card-title">{{Services.seller}}</span>
-          <p>{{service.content}}</p>
-        </div>
-        <div class="card-action">
-          <a href="Reserve/{{service.service_provider}}">Reserve</a>
-        </div>
-      </div>
+    <div class="carousel-item active">
+      <h5>{{service.sellername.username}}</h5>
+      <p>{{service.sellername.Email}}</p>
+        <a href="Reserve/{{service.sellername.username}}" style= "color:coral">Reserve</a>
     </div>
     {% endfor %}
   </div>
-  </form>
+</div>
+</body>
   <style>
     .row{
       width : 50%;
       margin-top:10%;
     }
+    #carouselExampleControls{
+      margin-top:10%;
+    }
+    .body{
+    background-color:coral;
+    }
 </style>
-{% endblock %}
+<script>
+  M.AutoInit();
+  var instance = M.Carousel.init({
+    fullWidth: true,
+    indicators: true
+  });
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+    indicators: true
+  });
+  </script>
+  {% endblock %}
