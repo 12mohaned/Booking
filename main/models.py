@@ -30,7 +30,6 @@ class Booking(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     date = models.DateField()
 
-
 #Improved later to include the user
 class Inquiry(models.Model):
     Message = models.TextField()

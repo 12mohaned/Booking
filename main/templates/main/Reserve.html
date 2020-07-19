@@ -2,17 +2,18 @@
 {% block content %}
 <body>
   <title>Sellers</title>
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    {% for service in Services %}
-    <div class="carousel-item active">
-      <h5>{{service.sellername.username}}</h5>
-      <p>{{service.sellername.Email}}</p>
-        <a href="Reserve/{{service.sellername.username}}" style= "color:coral">Reserve</a>
-    </div>
-    {% endfor %}
+
+  {% for service in Services %}
+  <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{service.sellername.username}}</h5>
+    <p class="card-text"><a href="Reserve/{{service.sellername.username}}" style= "color:coral">Reserve</a>
+</p>
+    <a href="mailto: {{service.sellername.Email}}">Send Email</a>
   </div>
 </div>
+{% endfor %}
 </body>
   <style>
     .row{

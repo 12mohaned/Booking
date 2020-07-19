@@ -3,6 +3,11 @@ from .forms import InquiryForm
 from .models import Buyer, Seller, Service, Booking, Inquiry,Seller_Service
 from django.http import HttpResponse
 from datetime import datetime
+from django.conf import settings
+from decimal import Decimal
+from paypal.standard.forms import PayPalPaymentsForm
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 # Return all services
 def Home(request):
     Services = Service.objects.all()
@@ -45,3 +50,30 @@ def Inquiry(request):
             inquiry.save()
     context = { "InquiryForm":Inquiryform}
     return render(request,"main/inquiry.html",context)
+
+def process_payment(request):
+    service_name = request.session.get('servicename')
+    service = Service.objects.get(name = 'Trip-Advisor')
+    host = request.get_host()
+    print(host)
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': '%.2f' % 1000,
+        'item_name': 'Order {}'.format(service.name),
+        'invoice': str(service.name),
+        'currency_code': 'USD',
+        'notify_url': 'http://{}{}'.format(host,'paypal-ipn'),
+        'return_url': 'http://{}{}'.format(host,'payment_done'),
+        'cancel_return': 'http://{}{}'.format(host,'payment_cancelled'),
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"PaypalForm" : form}
+    return render(request,'main/process_payment.html',context)
+
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'main/payment_done.html')
+
+@csrf_exempt
+def payment_cancelled(request):
+    return render(request, 'main/payment_cancel.html')

@@ -10,4 +10,7 @@ path("Home",views.Home,name = "Home"),
 path("Home/<slug:service>",views.Services,name = "service"),
 path("Home/Reserve/<slug:provider>",views.reserve_provider,name = "reserve_provider"),
 path("inquiry",views.Inquiry,name = "inquiry"),
+path('process-payment/', views.process_payment, name='process_payment'),
+path('payment-done/', views.payment_done, name='payment_done'),
+path('payment-cancelled/', views.payment_cancelled, name='payment_cancelled'),
 ]+ static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
