@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from .forms import InquiryForm
 from .models import Buyer, Seller, Service, Booking, Inquiry,Seller_Service
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from datetime import datetime
 from django.conf import settings
 from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+
+booking = Booking()
 # Return all services
 def Home(request):
     Services = Service.objects.all()
@@ -16,19 +18,22 @@ def Home(request):
 
 #Return all service providers
 def Services(request,service):
-    service = Seller_Service.objects.filter(servicename = service)
+    services = Seller_Service.objects.filter(servicename = service)
+    booking.service = Service.objects.get(name = service)
+
     if len(service) == 0:
         return HttpResponse("Url Can't be found")
 
-    context = {"Services":service}
+    context = {"Services":services}
     return render(request,"main/Reserve.html",context)
 
 #Reserve Service Providers
 def reserve_provider(request, provider):
-    booking = Booking(Sellername  = Seller.objects.get(username = 'BookingApp'), Buyername  = Buyer.objects.get(username = 'mohaned.mashaly'),service    = Service.objects.get(name = 'BootCamp'))
-    Provider = Seller_Service.objects.filter(sellername = provider)
-    print(Provider)
-    if len(Provider) == 0:
+    user_name = request.user
+    booking.Sellername  = Seller.objects.get(username = provider)
+    booking.Buyername  = Buyer.objects.get(username = user_name)
+    booking.Provider = Seller_Service.objects.filter(sellername = provider)
+    if len(provider) == 0:
         return HttpResponse("Url Can't be found")
     if request.method == "POST":
         Date = request.POST["Date"]
@@ -37,9 +42,12 @@ def reserve_provider(request, provider):
         else:
             dt = datetime.strptime(Date, '%m/%d/%Y')
             booking.date = dt
+            payment_method(request)
             booking.save()
     return render(request,"main/Slot.html")
 
+def payment_method(request):
+    return render(request, "main/Payment_method.html")
 #submit Inquiry
 def Inquiry(request):
     Inquiryform = InquiryForm()
@@ -55,10 +63,9 @@ def process_payment(request):
     service_name = request.session.get('servicename')
     service = Service.objects.get(name = 'Trip-Advisor')
     host = request.get_host()
-    print(host)
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': '%.2f' % 1000,
+        'amount': '%.2f' % 100,
         'item_name': 'Order {}'.format(service.name),
         'invoice': str(service.name),
         'currency_code': 'USD',

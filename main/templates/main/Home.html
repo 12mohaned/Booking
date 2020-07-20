@@ -2,6 +2,9 @@
 {% block content %}
 <body>
   <title>Services</title>
+  <div id="Header">
+  <h4>Featured Services</h4>
+  </div>
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     {% for service in Services %}
@@ -20,10 +23,13 @@
       margin-top:10%;
     }
     #carouselExampleControls{
-      margin-top:10%;
     }
     .body{
     background-color:coral;
+    }
+    #Header{
+      margin-top : 260px;
+      margin-left :40%;
     }
 </style>
 <script>

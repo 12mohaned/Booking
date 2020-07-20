@@ -1,0 +1,30 @@
+{% extends "main/Base.html" %}
+{% block content %}
+<form action = "http://127.0.0.1:8000/payment-method/process-payment/" method = "post">
+  {% csrf_token %}
+  <div id = "PaypalButton">
+  <button  class="btn orange dark" type="submit" name="action">Pay Online
+    <i class="material-icons right">credit_card</i>
+  </button>
+  </div>
+  </form>
+
+  <form action = "http://127.0.0.1:8000/Home" method= "post">
+    {% csrf_token %}
+  <div id = "CashButton">
+<button class="btn orange dark" type="submit" name="action">Pay Cash
+  <i class="material-icons right">attach_money</i>
+</button>
+</div>
+</form>
+<style>
+  #CashButton{
+    margin-top:25%;
+    margin-left:38%;
+  }
+  #PaypalButton{
+    margin-left:50%;
+    margin-top:-2.55%;
+  }
+  </style>
+{% endblock %}
