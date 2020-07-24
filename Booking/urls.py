@@ -19,6 +19,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path("",include('main.urls')),
+    path("",include('User.urls')),
     path('admin/', admin.site.urls),
     path('paypal/',include('paypal.standard.ipn.urls'))
 ]

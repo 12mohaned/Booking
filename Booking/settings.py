@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'paypal.standard.ipn',
-    'main.apps.MainConfig'
+    'main.apps.MainConfig',
+    'User.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
