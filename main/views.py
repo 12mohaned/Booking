@@ -8,19 +8,22 @@ from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 booking = Booking()
 # Return all services
+@login_required
 def Home(request):
     Services = Service.objects.all()
     context = {"Services":Services,}
     return render(request,"main/Home.html",context)
+    #return HttpResponse("You have to log in")
 
 #Return all service providers
+@login_required
 def Services(request,service):
     services = Seller_Service.objects.filter(servicename = service)
     booking.service = Service.objects.get(name = service)
-
     if len(service) == 0:
         return HttpResponse("Url Can't be found")
 
@@ -28,6 +31,7 @@ def Services(request,service):
     return render(request,"main/Reserve.html",context)
 
 #Reserve Service Providers
+@login_required
 def reserve_provider(request, provider):
     user_name = request.user
     booking.Sellername  = Seller.objects.get(username = provider)
@@ -46,9 +50,11 @@ def reserve_provider(request, provider):
             booking.save()
     return render(request,"main/Slot.html")
 
+@login_required
 def payment_method(request):
     return render(request, "main/Payment_method.html")
-#submit Inquiry
+
+@login_required
 def Inquiry(request):
     Inquiryform = InquiryForm()
     if request.method == "POST":
@@ -59,6 +65,7 @@ def Inquiry(request):
     context = { "InquiryForm":Inquiryform}
     return render(request,"main/inquiry.html",context)
 
+@login_required
 def process_payment(request):
     service_name = request.session.get('servicename')
     service = Service.objects.get(name = 'Trip-Advisor')
@@ -72,10 +79,11 @@ def process_payment(request):
         'notify_url': 'http://{}{}'.format(host,'paypal-ipn'),
         'return_url': 'http://{}{}'.format(host,'payment_done'),
         'cancel_return': 'http://{}{}'.format(host,'payment_cancelled'),
-    }
+        }
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"PaypalForm" : form}
     return render(request,'main/process_payment.html',context)
+
 
 @csrf_exempt
 def payment_done(request):

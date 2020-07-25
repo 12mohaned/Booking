@@ -70,16 +70,25 @@ body {
 </head>
 <body>
 
+  {% if user.is_authenticated%}
 <div class="header">
   <a href="#default" class="logo">Book Whatever you want</a>
   <div class="header-right">
+    <a href ="/Logout">Log out</a>
     <a href="/inquiry">inquiry</a>
-    <a href="/Signup">Signup</a>
+    <a href ="/Profile">Profile</a>
     <a class="active" href="/Home">Home</a>
-
-
   </div>
 </div>
+{% else %}
+<div class="header">
+  <div class="header-right">
+<a href="/Login">Login</a>
+<a href="/Signup">Signup</a>
+</div>
+</div>
+
+{% endif %}
 {% block content %}
 {% endblock %}
 </body>
@@ -99,7 +108,7 @@ body {
           </div>
           <div class="footer-copyright">
             <div class="container">
-            WeSenior
+            Booking App
             </div>
 
           </div>

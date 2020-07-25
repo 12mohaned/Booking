@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from main.models import Seller
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 def Profile(request):
     template_name = 'User/Profile-Buyer.html'
@@ -24,7 +25,7 @@ def Singup_seller(request):
             login(request,user)
             return redirect('/Home')
         else:
-            return redirect('User/Signup_seller.html')
+            return redirect('/SignupSeller')
     else :
         form = SellerForm()
     context= {"Form":form}
@@ -42,12 +43,12 @@ def Signup_buyer(request):
             raw_password = form.cleaned_data.get("password1")
             Email      = form.cleaned_data.get("email")
             user = authenticate(username=username, password=raw_password)
-            Buyer.objects.create(username = username, firstname = first_name, lastname = last_name, email = Email)
-            Buyer.save()
+            buyer = Buyer(username = username, firstname = first_name, lastname = last_name, email = Email)
+            buyer.save()
             login(request,user)
-            return redirect('main/Home.html')
+            return redirect('/Home')
         else:
-            return redirect('User/Signup_buyer.html')
+            return redirect('/SignupBuyer')
     else :
         form = SignupForm()
     context= {"Form":form}
@@ -62,7 +63,7 @@ def Login(request):
             user = authenticate(username=username, password=raw_password)
             if(user is not None):
                 login(request, user)
-                return redirect('main/Home.html')
+                return redirect('/Home')
             else:
                 return HttpResponse(user)
     else:
@@ -73,5 +74,9 @@ def Login(request):
     return render(request,"User/Login.html",context)
 
 def Signup(request):
-
     return render(request,'User/Signup.html')
+
+@login_required
+def log_out(request):
+    logout(request)
+    return render(request,'User/Login.html')

@@ -1,8 +1,17 @@
 {% extends "main/Base.html" %}
+
 {% block content %}
 <form method="post">
 {% csrf_token %}
 {{Form.as_p}}
- <button type="submit" class="btn btn-primary black">Log in</button>
+<div class = "Login">
+ <button type="submit" class="btn btn-primary orange">Log in</button>
+</div>
 </form>
-{% endblock %}
+<style>
+  .Login{
+    margin-left : 45%;
+    margin-bottom : 19%;
+  }
+  </style>
+  {% endblock %}
