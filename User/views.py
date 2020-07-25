@@ -11,7 +11,6 @@ def Profile_seller(request, seller):
     template_name = 'User/Profile-Seller.html'
     user = Seller.objects.filter(username = seller)
     if len(user) == 0:
-        print(1)
         return Profile_buyer(request,seller)
     context = {"seller":user}
     return render(request,template_name,context)
