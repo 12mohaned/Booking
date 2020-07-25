@@ -1,14 +1,27 @@
 from django.shortcuts import render, redirect
 from .forms import SignupForm, SellerForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from main.models import Seller
+from main.models import Seller, Buyer
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-def Profile(request):
+@login_required
+def Profile_seller(request, seller):
+    template_name = 'User/Profile-Seller.html'
+    user = Seller.objects.filter(username = seller)
+    if len(user) == 0:
+        print(1)
+        return Profile_buyer(request,seller)
+    context = {"seller":user}
+    return render(request,template_name,context)
+
+@login_required
+def Profile_buyer(request, buyer):
     template_name = 'User/Profile-Buyer.html'
-    return render(request,template_name)
+    user = Buyer.objects.get(username = buyer)
+    context = {"buyer":user}
+    return render(request,template_name,context)
 
 def Singup_seller(request):
     template_name = 'User/Signup_seller.html'
