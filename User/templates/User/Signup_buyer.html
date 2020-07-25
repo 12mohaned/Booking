@@ -1,0 +1,16 @@
+{% extends "main/Base.html" %}
+{% block content %}
+<form method="post">
+{% csrf_token %}
+{{Form.as_p}}
+<div class = "Submit">
+ <button type="submit" class="btn btn-primary orange">Submit</button>
+ </div>
+</form>
+<style>
+  .Submit{
+    margin-left : 45%;
+    margin-bottom :1%;
+  }
+  </style>
+{% endblock %}

@@ -1,8 +1,22 @@
 {% extends "main/Base.html" %}
 {% block content %}
-<form method="post">
-{% csrf_token %}
-{{Form.as_p}}
- <button type="submit" class="btn btn-primary black">Submit</button>
-</form>
+<div class = "Signup-Buyer">
+<a class="btn btn-primary orange" href = "/SignupBuyer">Sign up as a Buyer</a>
+</div>
+<div class = "Signup-Seller">
+<a class="btn btn-primary orange" href = "/SignupSeller">Sign up as a Seller</a>
+</div>
+<style>
+  .Signup-Buyer{
+    margin-left : 55%;
+    margin-top : 10%;
+    position : relative;
+  }
+  .Signup-Seller{
+    margin-left:25%;
+    margin-top : 10%;
+    position : relative;
+  }
+  </style>
+
 {% endblock %}
