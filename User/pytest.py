@@ -44,9 +44,3 @@ def test_login(client):
                                       'password1' :'pass123456/'})
     assert response.status_code == 200
     assert response.url == urls.reverse('main:Home')
-
-"""@pytest.mark.django_db
-def test_home(authenticated_user, client):
-    url = urls.reverse('main:Home')
-    response = client.get(url)
-    assert response.status_code == 200"""

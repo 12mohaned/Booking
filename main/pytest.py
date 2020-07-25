@@ -69,8 +69,40 @@ def test_Seller_Service_model(seller, service, seller_service):
     seller_service.save()
     assert seller_service != None and Seller_Service.objects.count() == 1
 
+""" Testing The View Functions Without Authentication """
 @pytest.mark.django_db
 def test_home(client):
     url = urls.reverse('main:Home')
     response = client.get(url)
-    assert response.status_code == 200
+    assert response.status_code == 302
+
+@pytest.mark.django_db
+def test_inquiry(client):
+    url = urls.reverse('main:inquiry')
+    response = client.get(url)
+    assert response.status_code == 302
+
+@pytest.mark.django_db
+def test_payment_done(client):
+    url = urls.reverse('main:payment-done')
+    response = client.get(url)
+    assert response.status_code == 302
+
+@pytest.mark.django_db
+def test_payment_cancellation(client):
+    url = urls.reverse('main:payment-cancelled')
+    response = client.get(url)
+    assert response.status_code == 302
+
+@pytest.mark.django_db
+def test_payment_method(client):
+    url = urls.reverse('main:payment-method')
+    response = client.get(url)
+    assert response.status_code == 302
+
+@pytest.mark.django_db
+def test_services_method(client,service):
+
+    url = urls.reverse('main:Home/service')
+    response = client.get(url)
+    assert response.status_code == 302
