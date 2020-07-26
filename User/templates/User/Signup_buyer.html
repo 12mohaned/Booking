@@ -1,7 +1,7 @@
 {% extends "main/Base.html" %}
 {% block content %}
-<form method="post">
 {% csrf_token %}
+<form method="post">
 {{Form.as_p}}
 <div class = "Submit">
  <button type="submit" class="btn btn-primary orange">Submit</button>

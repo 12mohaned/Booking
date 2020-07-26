@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import SignupForm, SellerForm
+from User.forms import SignupForm, SellerForm, ChangePersonalInfoBuyer, ChangePersonalInfoSeller
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from main.models import Seller, Buyer
 from django.contrib.auth import login, logout, authenticate
@@ -8,18 +8,34 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def Profile_seller(request, seller):
+    PersonalInfo = ChangePersonalInfoSeller()
     template_name = 'User/Profile-Seller.html'
     user = Seller.objects.filter(username = seller)
     if len(user) == 0:
         return Profile_buyer(request,seller)
-    context = {"seller":user}
+    if request.method == "POST":
+        PersonalInfo = ChangePersonalInfoSeller(request.POST)
+        if PersonalInfo.is_valid():
+            Biography   = PersonalInfo.cleaned_data.get("Bio")
+        print(PersonalInfo.is_valid())
+
+    context = {"seller":user[0],  "PersonalInformation": PersonalInfo}
     return render(request,template_name,context)
 
 @login_required
 def Profile_buyer(request, buyer):
+    PersonalInfo = ChangePersonalInfoBuyer()
     template_name = 'User/Profile-Buyer.html'
-    user = Buyer.objects.get(username = buyer)
-    context = {"buyer":user}
+    user = Buyer.objects.filter(username = buyer)
+    if request.method == "POST":
+        PersonalInfo = ChangePersonalInfoBuyer(request.POST)
+        print(PersonalInfo.is_valid())
+        if PersonalInfo.is_valid():
+            first_name   = PersonalInfo.cleaned_dataget.get("first_name")
+            last_name   = PersonalInfo.cleaned_dataget.get("last_name")
+            Biography   = PersonalInfo.cleaned_data.get("Bio")
+
+    context = {"buyer":user[0], "PersonalInformation":PersonalInfo}
     return render(request,template_name,context)
 
 def Singup_seller(request):
@@ -91,4 +107,4 @@ def Signup(request):
 @login_required
 def log_out(request):
     logout(request)
-    return render(request,'User/Login.html')
+    return render(request,'Main/Base.html')

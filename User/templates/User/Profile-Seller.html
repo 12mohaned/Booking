@@ -11,7 +11,21 @@
 	<h5>Location</h5>
 	<h6>Egypt, Cairo</h6>
 </div>
+<div class = "edit_button">
+	<button type="submit" class="orange btn modal-trigger"  href="#modal1">Edit Personal Information</button>
+<div id="modal1" class="modal">
+<div class="modal-content">
+{{PersonalInformation.as_p}}
+</div>
+<form method = "post">
+	{% csrf_token %}
+<div class="modal-footer">
+	<button type="submit" class="btn btn-primary orange">Submit</button>
+</div>
+</form>
 
+</div>
+</div>
 	<style>
 	.Personal-information{
 		margin-top:18%;
@@ -21,5 +35,24 @@
 		width: 30%;
 		margin-right : 70%;
 	}
+	.edit_button{
+		margin-left : 30%;
+		margin-bottom :3%;
+	}
 		</style>
+
+		<script>
+			M.AutoInit();
+			document.addEventListener('DOMContentLoaded', function() {
+	 var elems = document.querySelectorAll('.modal');
+	 var instances = M.Modal.init(elems, options);
+ });
+
+ // Or with jQuery
+
+ $(document).ready(function(){
+	 $('.modal').modal();
+ });
+
+			</script>
 {% endblock %}
